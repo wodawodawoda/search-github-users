@@ -1,6 +1,7 @@
 import React from 'react';
-import UsersList from './UsersList';
+import Header from './Header'
 import SearchForm from './SearchForm';
+import UsersList from './UsersList';
 import '../app.sass';
 
 class App extends React.Component {
@@ -18,6 +19,7 @@ class App extends React.Component {
     }
     onSubmit(event) {
         event.preventDefault();
+        if(this.state.searchText === '') {return}
         const {searchText} = this.state;
         const url = `https://api.github.com/search/users?q=${searchText}`;
         fetch(url)
@@ -26,12 +28,13 @@ class App extends React.Component {
     }
 
     render() {
-        return (
-            <div className="container">
-                <SearchForm onSubmit={this.onSubmit} onChangeHandle={this.onChangeHandle} state={this.state}/>
-                <UsersList users={this.state.users}/>
-            </div>
-        );
+      return (
+        <div className="container">
+          <Header />
+          <SearchForm onSubmit={this.onSubmit} onChangeHandle={this.onChangeHandle} state={this.state}/>
+          <UsersList users={this.state.users}/>
+        </div>
+      );
     }
 }
 
